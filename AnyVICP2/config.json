@@ -1,0 +1,10 @@
+{
+    "name": "AnyVICP 2",
+    "index_name":"首页",
+    "search_name":"搜索",
+    "join_name":"加入",
+    "index_address":"/index",
+    "join_address":"/join",
+    "showresult_address":"/result",
+    "join_api":"/api/join"
+}

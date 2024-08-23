@@ -1,0 +1,10 @@
+{
+    "name": "AnyVICP 2",
+    "index_name":"Index",
+    "search_name":"Search",
+    "join_name":"Join",
+    "index_address":"/index",
+    "join_address":"/join",
+    "showresult_address":"/result",
+    "join_api":"/api/join"
+}

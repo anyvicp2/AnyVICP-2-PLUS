@@ -16,7 +16,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from AnyVICP2 import pages
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', pages.index),
+    path('index/', pages.index),
+    path('join/', pages.join),
+    path('api/join/', pages.joinapi),
+    path('result/', pages.result)
 ]
