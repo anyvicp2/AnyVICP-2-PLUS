@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no"/>
+    <meta name="renderer" content="webkit"/>
+    <link rel="stylesheet" href="https://unpkg.com/mdui@2/mdui.css">
+    <link href="https://fonts.googleapis.cn/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://unpkg.com/mdui@2/mdui.global.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+    <title>{{ web_name }}</title>
+    <style>
+        * {
+            /* font-family: "Nimbus Sans"; */
+        }
+        .head {
+            margin-top: 50px;
+            margin-left: 27px;
+        }
+        .form {
+            margin-left: 27px;
+        }
+        .input {
+            width: 500px;
+            color: skyblue;
+        }
+        mdui-layout {
+            margin-left: 27px;
+        }
+        .divider {
+            color: gray;
+            width: 100%;
+        }
+        .index-navigation-drawer {
+            background-color: gray;
+            height: 100%;
+        }
+    </style>
+  </head>
+  <body>
+    <main>
+        <mdui-layout>
+            <mdui-top-app-bar class="index-top-app-bar">
+                <mdui-top-app-bar-title>{{ name }} - MANAGEMENT</mdui-top-app-bar-title>
+            </mdui-top-app-bar>
+
+            <mdui-navigation-drawer open class="index-navigation-drawer" style="color: gray;">
+                <mdui-list>
+                    <mdui-list-item class="btn-index" onclick="javascript:window.location.href='{{ index_address }}'">{{ index_name }}</mdui-list-item>
+                    <mdui-list-item class="btn-search" onclick="javascript:window.location.href='{{ index_address }}'">{{ search_name }}</mdui-list-item>
+                    <mdui-list-item class="btn-join" onclick="javascript:window.location.href='{{ join_address }}'">{{ join_name }}</mdui-list-item>
+                    <mdui-list-item class="btn-join" onclick="javascript:window.location.href='{{ admin_websitemanage }}'">Manage websites</mdui-list-item>
+                    <mdui-list-item class="btn-join" onclick="javascript:window.location.href='{{ announcement_address }}'">Create announcement</mdui-list-item>
+                </mdui-list>
+            </mdui-navigation-drawer>
+
+            <mdui-layout-main class="index-layout-main" style="min-height: 300px; margin-left: 27px;">
+                <h1>{{ name }} MANAGEMENT</h1>
+                <br>
+                <form action="{{ changeapi_address }}" method="get" class="">
+                    <div style="width: 600px;">
+                        <div class="row g-3 align-items-center" style="width: 600px;">
+                            <div class="col">
+                                <input type="text" class="form-control" placeholder="Name" name="name" style="width: 500px;" required>
+                            </div>
+                            <div class="col">
+                                <input type="text" class="form-control" placeholder="Domain" name="domain" style="width: 500px;" required>
+                            </div>  
+                            <div class="col">
+                                <input type="text" class="form-control" placeholder="Author" name="author" style="width: 500px;" required>
+                            </div>  
+                            <div class="col">
+                                <input type="text" class="form-control" placeholder="ICPNumber" name="icpNumber" style="width: 500px;" required> <!--ICP号可能被修改为空, 所以还要 required.-->
+                            </div>  
+                            <div class="col">
+                                <button type="submit" class="btn btn-primary">CHANGE IT</button>
+                            </div>  
+                            <input type="text" name="changewebsite_source_name-_" hidden="true" value="{{ website_source_name }}"> <!--这个是随带提交的名称-->
+                            <!--这里直接借用 join.html 了, 懒得再写-->
+                        </div>
+                    </div>
+                </form>
+            </mdui-layout-main>
+        </mdui-layout>
+    </main>
+  </body>
+</html>

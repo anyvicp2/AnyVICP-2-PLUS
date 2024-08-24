@@ -6,5 +6,12 @@
     "index_address":"/index",
     "join_address":"/join",
     "showresult_address":"/result",
-    "join_api":"/api/join"
+    "join_api":"/api/join",
+    "loginapi_address":"/api/admin_login",
+    "login_name":"Login",
+    "admin_websitemanage":"/admin/websitemanage",
+    "admin_announcementmanage":"/admin/anmentmnge",
+    "changeapi_address":"/admin/api/changewebsite",
+    "announcementapi_address":"/admin/api/announcement_creation",
+    "announcement_address":"/admin/announcement"
 }
