@@ -6,6 +6,22 @@ import datetime
 import hashlib
 from django.contrib.auth import *
 from django.contrib.auth.decorators import *
+import http.client
+import time
+
+def getConfig() -> dict:
+    return json.load(open(__file__.replace("pages.py", "config.json"), "r"))
+
+def getTime(host:str):
+    conn=http.client.HTTPConnection(host)
+    conn.request("GET", "/")
+    r=conn.getresponse()
+    #r.getheaders() #获取所有的http头
+    ts=r.getheader('date') #获取http头date部分
+    #将GMT时间转换成北京时间
+    ltime = time.strptime(ts [5:25], "%d %b %Y %H:%M:%S")
+    dtime = datetime.datetime(ltime.tm_year, ltime.tm_mon, ltime.tm_mday, ltime.tm_hour, ltime.tm_min, ltime.tm_sec)
+    return dtime
 
 def index(request):
     """
@@ -15,7 +31,7 @@ def index(request):
     template = loader.get_template('index.html')
 
     # Get config
-    context = json.load(open('./AnyVICP2/config.json', "r"))
+    context = getConfig()
     return HttpResponse(template.render(context, request))
 
 def join(request):
@@ -26,7 +42,7 @@ def join(request):
     template = loader.get_template('join.html')
 
     # Get config
-    context = json.load(open('./AnyVICP2/config.json', "r"))
+    context = getConfig()
     return HttpResponse(template.render(context, request))
 
 def joinapi(request:HttpRequest):
@@ -46,7 +62,7 @@ def joinapi(request:HttpRequest):
     name = request.GET.get('name')
     domain = request.GET.get('domain')
     author = request.GET.get('author')
-    createDate = datetime.datetime.now()
+    createDate = getTime("www.baidu.com") # 有些傻逼主机时间不对，导致这也不对，所以直接用网络时间得了
     icpNumber = request.GET.get('icpNumber')
     status = True
     
@@ -65,7 +81,7 @@ def result(request:HttpRequest):
     template = loader.get_template('result.html')
 
     # Get config
-    context = json.load(open('./AnyVICP2/config.json', "r"))
+    context = getConfig()
 
     # Find domain in database
     domain = request.GET.get('domain')
@@ -98,7 +114,7 @@ def api_adminLogin(request:HttpRequest):
     Admin login api
     """
     # Get config
-    config = json.load(open('./AnyVICP2/config.json', "r"))
+    config = getConfig()
 
     # Check if username and password are correct
     username = request.GET.get('username')
@@ -106,9 +122,9 @@ def api_adminLogin(request:HttpRequest):
     user = authenticate(request, username=username, password=password) # type: ignore
     if user is not None:
         login(request, user) # type: ignore
-        return HttpResponseRedirect("./index/")
+        return HttpResponseRedirect("/wadmin/index/")
     else:
-        return HttpResponseRedirect('./login/?error=1')
+        return HttpResponseRedirect('/wadmin/login/?error=1')
 
 def admin_login(request:HttpRequest):
     """
@@ -118,7 +134,7 @@ def admin_login(request:HttpRequest):
     template = loader.get_template('admin/admin_login.html')
 
     # Get config
-    context = json.load(open('./AnyVICP2/config.json', "r"))
+    context = getConfig()
 
     # Check if error
     error = request.GET.get('error')
@@ -136,7 +152,7 @@ def admin_index(request:HttpRequest):
     template = loader.get_template('admin/admin_index.html')
 
     # Get config
-    context = json.load(open('./AnyVICP2/config.json', "r"))
+    context = getConfig()
 
     return HttpResponse(template.render(context, request))
 
@@ -149,7 +165,7 @@ def admin_website(request:HttpRequest):
     template = loader.get_template('admin/admin_managewebsites.html')
 
     # Get config
-    context = json.load(open('./AnyVICP2/config.json', "r"))
+    context = getConfig()
 
     # Get all website
     websites = Website.objects.all()
@@ -158,6 +174,7 @@ def admin_website(request:HttpRequest):
     context["websites"] = {}
     for website in websites:
         context["websites"].update({website:"./webedit/?id="+str(website.name)})
+    context["websites"] = context["websites"].items()
 
     return HttpResponse(template.render(context, request))
 
@@ -170,7 +187,7 @@ def admin_websiteedit(request:HttpRequest):
     template = loader.get_template('admin/admin_editwebsite.html')
 
     # Get config
-    context = json.load(open('./AnyVICP2/config.json', "r"))
+    context = getConfig()
 
     # Get website name
     website_name = request.GET.get('id')
@@ -211,7 +228,7 @@ def admin_announcementcreate(request:HttpRequest):
     template = loader.get_template('admin/admin_announcementmanage.html')
 
     # Get config
-    context = json.load(open('./AnyVICP2/config.json', "r"))
+    context = getConfig()
 
     return HttpResponse(template.render(context, request))
 
@@ -221,7 +238,7 @@ def admin_announcement_createapi(request:HttpRequest):
     Admin announcement create api
     """
     # Get config
-    context = json.load(open('./AnyVICP2/config.json', "r"))
+    context = getConfig()
 
     # Get announcement
     ann_name = request.GET.get('name')

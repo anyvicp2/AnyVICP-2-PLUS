@@ -1,0 +1,1 @@
+print(__file__.replace("test.py", "config.json"))

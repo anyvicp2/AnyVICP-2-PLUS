@@ -25,7 +25,7 @@ urlpatterns = [
     path('join/', pages.join),
     path('api/join/', pages.joinapi),
     path('result/', pages.result),
-    path('admin/login/', pages.admin_login),
+    path('wadmin/login/', pages.admin_login),
     path('api/admin_login/', pages.api_adminLogin),
     path('wadmin/index/', pages.admin_index),
     path('wadmin/websitemanage/', pages.admin_website),
